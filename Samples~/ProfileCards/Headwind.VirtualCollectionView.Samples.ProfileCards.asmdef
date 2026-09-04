@@ -1,0 +1,17 @@
+{
+    "name": "Headwind.VirtualCollectionView.Samples.ProfileCards",
+    "rootNamespace": "Headwind.VirtualCollectionView.Samples",
+    "references": [
+        "Headwind.VirtualCollectionView.Core",
+        "Headwind.VirtualCollectionView"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
