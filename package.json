@@ -1,0 +1,24 @@
+{
+  "name": "dev.headwind.virtualcollectionview",
+  "version": "0.1.0",
+  "displayName": "Virtual Collection View",
+  "description": "RecyclerView-style virtualized collection view for UI Toolkit, built on a platform-agnostic pure C# virtualization core (virtualizer + layout managers).",
+  "unity": "2022.3",
+  "keywords": [
+    "ui-toolkit",
+    "recyclerview",
+    "virtualization",
+    "collection",
+    "list"
+  ],
+  "author": {
+    "name": "Headwind"
+  },
+  "samples": [
+    {
+      "displayName": "Profile Cards",
+      "description": "Profile card list demonstrating column/row/grid layout managers with a shared adapter.",
+      "path": "Samples~/ProfileCards"
+    }
+  ]
+}
