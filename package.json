@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "Virtual Collection View",
   "description": "RecyclerView-style virtualized collection view for UI Toolkit, built on a platform-agnostic pure C# virtualization core (virtualizer + layout managers).",
-  "unity": "2022.3",
+  "unity": "2023.2",
   "keywords": [
     "ui-toolkit",
     "recyclerview",
