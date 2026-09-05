@@ -3,19 +3,39 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 using UnityEngine.UIElements;
+using Headwind.VirtualCollectionView.Editor;
 
 namespace Headwind.VirtualCollectionView.Tests.UIToolkit
 {
-    /// <summary>Config stub whose preview is a recognizable sentinel element.</summary>
+    /// <summary>Config stub with a single matching preview builder.</summary>
     internal sealed class StubConfig : CollectionViewConfig
     {
-        public override VisualElement CreatePreviewView() => new VisualElement { name = "stub-preview" };
     }
 
-    /// <summary>A second config type, for mismatch scenarios.</summary>
+    internal sealed class StubConfigPreviewBuilder : CollectionViewPreviewBuilder<StubConfig>
+    {
+        protected override VisualElement Build(StubConfig config) =>
+            new VisualElement { name = "stub-preview" };
+    }
+
+    /// <summary>A second config type, for mismatch and ambiguity scenarios.</summary>
     internal sealed class OtherConfig : CollectionViewConfig
     {
-        public override VisualElement CreatePreviewView() => new VisualElement();
+    }
+
+    internal sealed class OtherConfigPreviewBuilderA : CollectionViewPreviewBuilder<OtherConfig>
+    {
+        protected override VisualElement Build(OtherConfig config) => new VisualElement();
+    }
+
+    internal sealed class OtherConfigPreviewBuilderB : CollectionViewPreviewBuilder<OtherConfig>
+    {
+        protected override VisualElement Build(OtherConfig config) => new VisualElement();
+    }
+
+    /// <summary>Config with no preview builder at all.</summary>
+    internal sealed class OrphanConfig : CollectionViewConfig
+    {
     }
 
     public class CollectionHostViewTests
@@ -102,16 +122,48 @@ namespace Headwind.VirtualCollectionView.Tests.UIToolkit
         }
 
         [Test]
-        public void EditorBridge_InstallsPreviewFactory()
+        public void PreviewFactory_ResolvesBuilderByConfigType()
         {
             Assert.That(CollectionHostView.EditorPreviewFactory, Is.Not.Null);
             Assert.That(CollectionHostView.EditorPreviewFactory(_config).name, Is.EqualTo("stub-preview"));
         }
 
         [Test]
-        public void EditorBridge_MissingConfig_YieldsPlaceholder()
+        public void PreviewFactory_MissingConfig_YieldsPlaceholder()
         {
             Assert.That(CollectionHostView.EditorPreviewFactory(null), Is.Not.Null);
+        }
+
+        [Test]
+        public void PreviewFactory_NoBuilder_YieldsPlaceholder()
+        {
+            var orphan = ScriptableObject.CreateInstance<OrphanConfig>();
+            try
+            {
+                var preview = CollectionHostView.EditorPreviewFactory(orphan);
+
+                Assert.That(preview, Is.Not.Null);
+                Assert.That(preview.name, Is.Not.EqualTo("stub-preview"));
+            }
+            finally
+            {
+                Object.DestroyImmediate(orphan);
+            }
+        }
+
+        [Test]
+        public void PreviewFactory_AmbiguousBuilders_LogsErrorAndYieldsPlaceholder()
+        {
+            var other = ScriptableObject.CreateInstance<OtherConfig>();
+            try
+            {
+                LogAssert.Expect(LogType.Error, new Regex("Ambiguous preview builders for OtherConfig"));
+                Assert.That(CollectionHostView.EditorPreviewFactory(other), Is.Not.Null);
+            }
+            finally
+            {
+                Object.DestroyImmediate(other);
+            }
         }
     }
 }
