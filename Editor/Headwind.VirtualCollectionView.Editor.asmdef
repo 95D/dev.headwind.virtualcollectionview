@@ -1,0 +1,19 @@
+{
+    "name": "Headwind.VirtualCollectionView.Editor",
+    "rootNamespace": "Headwind.VirtualCollectionView.Editor",
+    "references": [
+        "Headwind.VirtualCollectionView",
+        "Headwind.VirtualCollectionView.Core"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
