@@ -4,6 +4,7 @@
     "references": [
         "Headwind.VirtualCollectionView.Core",
         "Headwind.VirtualCollectionView",
+        "Headwind.VirtualCollectionView.Editor",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],
