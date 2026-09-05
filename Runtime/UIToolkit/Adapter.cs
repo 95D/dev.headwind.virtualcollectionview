@@ -29,10 +29,10 @@ namespace Headwind.VirtualCollectionView
         /// Pool key for the item at <paramref name="index"/>. Return the
         /// concrete holder type. Defaults to a single shared key.
         /// </summary>
-        public virtual Type GetViewType(int index) => typeof(ViewHolder<T>);
+        public virtual Type GetViewType(int index) => typeof(CollectionItemViewHolder<T>);
 
         /// <summary>Creates a fresh holder for the given pool key.</summary>
-        public abstract ViewHolder<T> CreateViewHolder(Type viewType);
+        public abstract CollectionItemViewHolder<T> CreateViewHolder(Type viewType);
 
         /// <summary>Raised by <see cref="NotifyDataSetChanged"/>; observed by the view.</summary>
         public event Action DataSetChanged;
@@ -73,11 +73,11 @@ namespace Headwind.VirtualCollectionView
     /// <summary>
     /// Convenience base for the common single-view-type case: the holder type is the pool key.
     /// </summary>
-    public abstract class Adapter<TVH, T> : Adapter<T> where TVH : ViewHolder<T>
+    public abstract class Adapter<TVH, T> : Adapter<T> where TVH : CollectionItemViewHolder<T>
     {
         public sealed override Type GetViewType(int index) => typeof(TVH);
 
-        public sealed override ViewHolder<T> CreateViewHolder(Type viewType) => CreateViewHolder();
+        public sealed override CollectionItemViewHolder<T> CreateViewHolder(Type viewType) => CreateViewHolder();
 
         protected abstract TVH CreateViewHolder();
     }

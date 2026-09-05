@@ -29,7 +29,7 @@ realize/virtualize/move decisions:
 │   · recycling pool keyed by holder Type           │
 │   · content container translated by -offset       │
 │  Adapter<T> / Adapter<TVH, T>                     │
-│  ViewHolder<T> / ViewHolder<T, TSub>              │
+│  CollectionItemViewHolder<T> / CollectionItemViewHolder<T, TSub>              │
 └───────────────────────────────────────────────────┘
 ```
 
@@ -42,7 +42,7 @@ Key decisions:
 - **Transform-based placement**: items are `position: absolute`, placed once
   via `style.translate` (never `left/top`), with `UsageHints.DynamicTransform`.
   Scrolling updates a single content-container translate per frame.
-- **Recycling**: pools are keyed by concrete `ViewHolder` `Type`
+- **Recycling**: pools are keyed by concrete `CollectionItemViewHolder` `Type`
   (`Adapter.GetViewType`), so holders are only rebound to their own view type.
   Recycled elements stay attached with `display: none` — no attach/detach churn.
 - **Orientation**: the virtualizer is 2D-generic; scrollable axes are declared by
@@ -59,7 +59,7 @@ Key decisions:
   size and distribute the leftover — around the block, or into the lane
   gutters for the grid's SpaceBetween.
 - **Multi view type**: heterogeneous items are supported within one model
-  inheritance tree; `ViewHolder<T, TSub>` seals the single safe downcast so
+  inheritance tree; `CollectionItemViewHolder<T, TSub>` seals the single safe downcast so
   user code stays fully typed.
 - **Granular data changes preserve identity**: `NotifyItemRangeInserted/
   Removed/Moved/Changed` index-shift surviving holders without rebinding
@@ -114,7 +114,7 @@ Tests are split by layer:
   dependency and — like `Runtime/Core` itself — also compile and run on the
   plain .NET SDK.
 - `Tests/UIToolkit` — EditMode tests for the view layer's panel-independent
-  mechanics: adapter notification routing, ViewHolder contracts, and the
+  mechanics: adapter notification routing, CollectionItemViewHolder contracts, and the
   realize/recycle/pool cycle (driven by setting the virtualizer's viewport
   directly). Input handling (wheel/drag/fling) and animator timing need a live
   panel and are intentionally untested.
