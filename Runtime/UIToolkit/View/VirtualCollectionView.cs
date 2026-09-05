@@ -27,13 +27,13 @@ namespace Headwind.VirtualCollectionView
 
         private readonly CollectionVirtualizer _virtualizer = new CollectionVirtualizer();
         private readonly VisualElement _content;
-        private readonly Dictionary<int, ViewHolder<T>> _active = new Dictionary<int, ViewHolder<T>>();
-        private readonly Dictionary<Type, Stack<ViewHolder<T>>> _pool = new Dictionary<Type, Stack<ViewHolder<T>>>();
-        private readonly HashSet<ViewHolder<T>> _disappearing = new HashSet<ViewHolder<T>>();
-        private readonly List<KeyValuePair<int, ViewHolder<T>>> _shiftScratch =
-            new List<KeyValuePair<int, ViewHolder<T>>>();
+        private readonly Dictionary<int, CollectionItemViewHolder<T>> _active = new Dictionary<int, CollectionItemViewHolder<T>>();
+        private readonly Dictionary<Type, Stack<CollectionItemViewHolder<T>>> _pool = new Dictionary<Type, Stack<CollectionItemViewHolder<T>>>();
+        private readonly HashSet<CollectionItemViewHolder<T>> _disappearing = new HashSet<CollectionItemViewHolder<T>>();
+        private readonly List<KeyValuePair<int, CollectionItemViewHolder<T>>> _shiftScratch =
+            new List<KeyValuePair<int, CollectionItemViewHolder<T>>>();
 
-        private Adapter<T> _adapter;
+        private CollectionViewAdapter<T> _adapter;
 
         private int _pointerId = -1;
         private bool _dragging;
@@ -73,7 +73,7 @@ namespace Headwind.VirtualCollectionView
         /// <summary>The platform-agnostic virtualizer, exposed for advanced control.</summary>
         public CollectionVirtualizer Virtualizer => _virtualizer;
 
-        public Adapter<T> Adapter => _adapter;
+        public CollectionViewAdapter<T> Adapter => _adapter;
 
         /// <summary>
         /// Optional expression layer for insert/remove/move effects. Null (the
@@ -105,7 +105,7 @@ namespace Headwind.VirtualCollectionView
         public void SetLayoutManager(LayoutManager layoutManager) =>
             _virtualizer.SetLayoutManager(layoutManager);
 
-        public void SetAdapter(Adapter<T> adapter)
+        public void SetAdapter(CollectionViewAdapter<T> adapter)
         {
             if (_adapter == adapter)
                 return;
@@ -167,7 +167,7 @@ namespace Headwind.VirtualCollectionView
         private void OnItemRealized(int index, ItemRect rect, RealizeCause cause)
         {
             var viewType = _adapter.GetViewType(index);
-            ViewHolder<T> holder;
+            CollectionItemViewHolder<T> holder;
             if (_pool.TryGetValue(viewType, out var stack) && stack.Count > 0)
             {
                 holder = stack.Pop();
@@ -259,7 +259,7 @@ namespace Headwind.VirtualCollectionView
             {
                 if (_active.TryGetValue(shifts[i].From, out var holder))
                 {
-                    _shiftScratch.Add(new KeyValuePair<int, ViewHolder<T>>(shifts[i].To, holder));
+                    _shiftScratch.Add(new KeyValuePair<int, CollectionItemViewHolder<T>>(shifts[i].To, holder));
                     _active.Remove(shifts[i].From);
                 }
             }
@@ -278,7 +278,7 @@ namespace Headwind.VirtualCollectionView
                 holder.Bind(_adapter.GetItem(index));
         }
 
-        private void Recycle(ViewHolder<T> holder)
+        private void Recycle(CollectionItemViewHolder<T> holder)
         {
             holder.OnRecycled();
             holder.BoundIndex = -1;
@@ -286,7 +286,7 @@ namespace Headwind.VirtualCollectionView
 
             if (!_pool.TryGetValue(holder.ViewType, out var stack))
             {
-                stack = new Stack<ViewHolder<T>>();
+                stack = new Stack<CollectionItemViewHolder<T>>();
                 _pool.Add(holder.ViewType, stack);
             }
 
@@ -299,7 +299,7 @@ namespace Headwind.VirtualCollectionView
             if (_disappearing.Count == 0)
                 return;
 
-            var pending = new List<ViewHolder<T>>(_disappearing);
+            var pending = new List<CollectionItemViewHolder<T>>(_disappearing);
             for (var i = 0; i < pending.Count; i++)
                 ItemAnimator?.Cancel(pending[i]); // completion recycles and removes from the set
 
@@ -317,7 +317,7 @@ namespace Headwind.VirtualCollectionView
             _content.style.translate = new Translate(-offset.X, -offset.Y);
         }
 
-        private static void ApplyRect(ViewHolder<T> holder, ItemRect rect)
+        private static void ApplyRect(CollectionItemViewHolder<T> holder, ItemRect rect)
         {
             var view = holder.ItemView;
             view.style.translate = new Translate(rect.X, rect.Y);

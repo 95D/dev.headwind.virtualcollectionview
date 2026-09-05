@@ -10,9 +10,9 @@ namespace Headwind.VirtualCollectionView
     /// Platform-layer concept: this is where the UI Toolkit dependency lives,
     /// by design.
     /// </remarks>
-    public abstract class ViewHolder<T>
+    public abstract class CollectionItemViewHolder<T>
     {
-        protected ViewHolder(VisualElement itemView)
+        protected CollectionItemViewHolder(VisualElement itemView)
         {
             ItemView = itemView ?? throw new ArgumentNullException(nameof(itemView));
             // Items live in absolute space and are placed via transform
@@ -25,7 +25,7 @@ namespace Headwind.VirtualCollectionView
 
         public VisualElement ItemView { get; }
 
-        /// <summary>Adapter index currently bound to this holder, or -1 when pooled.</summary>
+        /// <summary>CollectionViewAdapter index currently bound to this holder, or -1 when pooled.</summary>
         public int BoundIndex { get; internal set; } = -1;
 
         /// <summary>Pool key this holder was created for. Set by the view.</summary>
@@ -48,9 +48,9 @@ namespace Headwind.VirtualCollectionView
     /// <typeparamref name="TSub"/> instances, so the single cast here is safe
     /// and user code stays fully typed.
     /// </remarks>
-    public abstract class ViewHolder<T, TSub> : ViewHolder<T> where TSub : T
+    public abstract class CollectionItemViewHolder<T, TSub> : CollectionItemViewHolder<T> where TSub : T
     {
-        protected ViewHolder(VisualElement itemView) : base(itemView)
+        protected CollectionItemViewHolder(VisualElement itemView) : base(itemView)
         {
         }
 

@@ -31,29 +31,29 @@ namespace Headwind.VirtualCollectionView
             public Action OnComplete;
         }
 
-        private readonly Dictionary<ViewHolder<T>, Anim> _anims =
-            new Dictionary<ViewHolder<T>, Anim>();
+        private readonly Dictionary<CollectionItemViewHolder<T>, Anim> _anims =
+            new Dictionary<CollectionItemViewHolder<T>, Anim>();
 
-        public void AnimateAppear(ViewHolder<T> holder, ItemRect target, Action onComplete)
+        public void AnimateAppear(CollectionItemViewHolder<T> holder, ItemRect target, Action onComplete)
         {
             // The view already applied the final rect; fade in at that spot.
             Start(holder, target, target, 0f, 1f, onComplete);
         }
 
-        public void AnimateMove(ViewHolder<T> holder, ItemRect from, ItemRect to, Action onComplete)
+        public void AnimateMove(CollectionItemViewHolder<T> holder, ItemRect from, ItemRect to, Action onComplete)
         {
             // Depart from the current visual state (not the reported `from`)
             // so an interrupted slide re-targets without a jump.
             Start(holder, ReadVisual(holder.ItemView), to, ReadOpacity(holder.ItemView), 1f, onComplete);
         }
 
-        public void AnimateDisappear(ViewHolder<T> holder, Action onComplete)
+        public void AnimateDisappear(CollectionItemViewHolder<T> holder, Action onComplete)
         {
             var current = ReadVisual(holder.ItemView);
             Start(holder, current, current, ReadOpacity(holder.ItemView), 0f, onComplete);
         }
 
-        public void Cancel(ViewHolder<T> holder)
+        public void Cancel(CollectionItemViewHolder<T> holder)
         {
             if (_anims.TryGetValue(holder, out var anim))
                 Finish(holder, anim);
@@ -63,7 +63,7 @@ namespace Headwind.VirtualCollectionView
         }
 
         private void Start(
-            ViewHolder<T> holder, ItemRect from, ItemRect to,
+            CollectionItemViewHolder<T> holder, ItemRect from, ItemRect to,
             float fromOpacity, float toOpacity, Action onComplete)
         {
             if (!_anims.TryGetValue(holder, out var anim))
@@ -89,7 +89,7 @@ namespace Headwind.VirtualCollectionView
             Apply(holder.ItemView, anim, 0f);
         }
 
-        private void Step(ViewHolder<T> holder, TimerState timer)
+        private void Step(CollectionItemViewHolder<T> holder, TimerState timer)
         {
             if (!_anims.TryGetValue(holder, out var anim))
                 return;
@@ -110,7 +110,7 @@ namespace Headwind.VirtualCollectionView
                 Finish(holder, anim);
         }
 
-        private void Finish(ViewHolder<T> holder, Anim anim)
+        private void Finish(CollectionItemViewHolder<T> holder, Anim anim)
         {
             anim.Ticker.Pause();
             _anims.Remove(holder);

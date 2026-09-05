@@ -5,7 +5,7 @@ using Headwind.VirtualCollectionView.Core;
 namespace Headwind.VirtualCollectionView.Tests.UIToolkit
 {
     /// <summary>Holder that records every bound item and recycle call.</summary>
-    internal sealed class RecordingHolder : ViewHolder<string>
+    internal sealed class RecordingHolder : CollectionItemViewHolder<string>
     {
         public readonly List<string> Bound = new List<string>();
         public int RecycledCount;
@@ -20,7 +20,7 @@ namespace Headwind.VirtualCollectionView.Tests.UIToolkit
     }
 
     /// <summary>In-memory string adapter with fixed 100×20 items, tracking created holders.</summary>
-    internal sealed class StringAdapter : Adapter<RecordingHolder, string>
+    internal sealed class StringAdapter : CollectionViewAdapter<RecordingHolder, string>
     {
         public readonly List<RecordingHolder> CreatedHolders = new List<RecordingHolder>();
         private readonly List<string> _items;

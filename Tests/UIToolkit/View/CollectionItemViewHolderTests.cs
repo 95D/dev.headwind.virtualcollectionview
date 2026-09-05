@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 namespace Headwind.VirtualCollectionView.Tests.UIToolkit
 {
-    public class ViewHolderTests
+    public class CollectionItemViewHolderTests
     {
         [Test]
         public void Constructor_NullItemView_Throws()
@@ -44,7 +44,7 @@ namespace Headwind.VirtualCollectionView.Tests.UIToolkit
             Assert.That(holder.LastBound, Is.EqualTo("hello"));
         }
 
-        private sealed class NullableHolder : ViewHolder<string>
+        private sealed class NullableHolder : CollectionItemViewHolder<string>
         {
             public NullableHolder(VisualElement itemView) : base(itemView)
             {
@@ -55,7 +55,7 @@ namespace Headwind.VirtualCollectionView.Tests.UIToolkit
             }
         }
 
-        private sealed class SubtypeHolder : ViewHolder<object, string>
+        private sealed class SubtypeHolder : CollectionItemViewHolder<object, string>
         {
             public string LastBound;
 

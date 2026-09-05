@@ -31,15 +31,15 @@ namespace Headwind.VirtualCollectionView
     public interface IItemAnimator<T>
     {
         /// <summary>Item appeared because it was inserted. The final rect is already applied.</summary>
-        void AnimateAppear(ViewHolder<T> holder, ItemRect target, Action onComplete);
+        void AnimateAppear(CollectionItemViewHolder<T> holder, ItemRect target, Action onComplete);
 
         /// <summary>Realized item's rect changed (data change, relayout, layout swap).</summary>
-        void AnimateMove(ViewHolder<T> holder, ItemRect from, ItemRect to, Action onComplete);
+        void AnimateMove(CollectionItemViewHolder<T> holder, ItemRect from, ItemRect to, Action onComplete);
 
         /// <summary>Item was removed while visible. Recycle happens in <paramref name="onComplete"/>.</summary>
-        void AnimateDisappear(ViewHolder<T> holder, Action onComplete);
+        void AnimateDisappear(CollectionItemViewHolder<T> holder, Action onComplete);
 
         /// <summary>Jump to final state, fire pending completion, neutralize styles.</summary>
-        void Cancel(ViewHolder<T> holder);
+        void Cancel(CollectionItemViewHolder<T> holder);
     }
 }

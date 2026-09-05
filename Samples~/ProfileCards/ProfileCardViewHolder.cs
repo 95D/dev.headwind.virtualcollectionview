@@ -10,7 +10,7 @@ namespace Headwind.VirtualCollectionView.Samples
     /// Instances are pooled by the view and rebound many times as the user
     /// scrolls.
     /// </remarks>
-    public sealed class ProfileCardViewHolder : ViewHolder<ProfileModel>
+    public sealed class ProfileCardViewHolder : CollectionItemViewHolder<ProfileModel>
     {
         private readonly VisualElement _avatar;
         private readonly Label _initial;
