@@ -33,7 +33,7 @@ namespace Headwind.VirtualCollectionView
         private readonly List<KeyValuePair<int, CollectionItemViewHolder<T>>> _shiftScratch =
             new List<KeyValuePair<int, CollectionItemViewHolder<T>>>();
 
-        private Adapter<T> _adapter;
+        private CollectionViewAdapter<T> _adapter;
 
         private int _pointerId = -1;
         private bool _dragging;
@@ -73,7 +73,7 @@ namespace Headwind.VirtualCollectionView
         /// <summary>The platform-agnostic virtualizer, exposed for advanced control.</summary>
         public CollectionVirtualizer Virtualizer => _virtualizer;
 
-        public Adapter<T> Adapter => _adapter;
+        public CollectionViewAdapter<T> Adapter => _adapter;
 
         /// <summary>
         /// Optional expression layer for insert/remove/move effects. Null (the
@@ -105,7 +105,7 @@ namespace Headwind.VirtualCollectionView
         public void SetLayoutManager(LayoutManager layoutManager) =>
             _virtualizer.SetLayoutManager(layoutManager);
 
-        public void SetAdapter(Adapter<T> adapter)
+        public void SetAdapter(CollectionViewAdapter<T> adapter)
         {
             if (_adapter == adapter)
                 return;

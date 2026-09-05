@@ -11,7 +11,7 @@ namespace Headwind.VirtualCollectionView.Samples
     /// height (88) and stretches the width, a row reads the width (240), a
     /// grid reads the height and derives cell width from its span.
     /// </remarks>
-    public sealed class ProfileCardAdapter : Adapter<ProfileCardViewHolder, ProfileModel>
+    public sealed class ProfileCardAdapter : CollectionViewAdapter<ProfileCardViewHolder, ProfileModel>
     {
         private readonly List<ProfileModel> _items;
 

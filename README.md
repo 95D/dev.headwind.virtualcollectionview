@@ -28,7 +28,7 @@ realize/virtualize/move decisions:
 │   · viewport: input (wheel/drag/fling)            │
 │   · recycling pool keyed by holder Type           │
 │   · content container translated by -offset       │
-│  Adapter<T> / Adapter<TVH, T>                     │
+│  CollectionViewAdapter<T> / CollectionViewAdapter<TVH, T>                     │
 │  CollectionItemViewHolder<T> / CollectionItemViewHolder<T, TSub>              │
 └───────────────────────────────────────────────────┘
 ```
@@ -43,7 +43,7 @@ Key decisions:
   via `style.translate` (never `left/top`), with `UsageHints.DynamicTransform`.
   Scrolling updates a single content-container translate per frame.
 - **Recycling**: pools are keyed by concrete `CollectionItemViewHolder` `Type`
-  (`Adapter.GetViewType`), so holders are only rebound to their own view type.
+  (`CollectionViewAdapter.GetViewType`), so holders are only rebound to their own view type.
   Recycled elements stay attached with `display: none` — no attach/detach churn.
 - **Orientation**: the virtualizer is 2D-generic; scrollable axes are declared by
   the `LayoutManager` (`CanScrollHorizontally/Vertically`). `AxisHelper`

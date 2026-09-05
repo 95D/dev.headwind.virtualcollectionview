@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace Headwind.VirtualCollectionView.Tests.UIToolkit
 {
-    public class AdapterTests
+    public class CollectionViewAdapterTests
     {
         [Test]
         public void NotifyMethods_RaiseMatchingEvents()

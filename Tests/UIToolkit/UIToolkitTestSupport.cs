@@ -20,7 +20,7 @@ namespace Headwind.VirtualCollectionView.Tests.UIToolkit
     }
 
     /// <summary>In-memory string adapter with fixed 100×20 items, tracking created holders.</summary>
-    internal sealed class StringAdapter : Adapter<RecordingHolder, string>
+    internal sealed class StringAdapter : CollectionViewAdapter<RecordingHolder, string>
     {
         public readonly List<RecordingHolder> CreatedHolders = new List<RecordingHolder>();
         private readonly List<string> _items;

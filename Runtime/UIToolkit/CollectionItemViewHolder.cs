@@ -25,7 +25,7 @@ namespace Headwind.VirtualCollectionView
 
         public VisualElement ItemView { get; }
 
-        /// <summary>Adapter index currently bound to this holder, or -1 when pooled.</summary>
+        /// <summary>CollectionViewAdapter index currently bound to this holder, or -1 when pooled.</summary>
         public int BoundIndex { get; internal set; } = -1;
 
         /// <summary>Pool key this holder was created for. Set by the view.</summary>

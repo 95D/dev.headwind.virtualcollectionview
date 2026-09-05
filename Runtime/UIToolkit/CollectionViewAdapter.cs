@@ -12,7 +12,7 @@ namespace Headwind.VirtualCollectionView
     /// recycling-pool key, so a holder is only ever rebound to indices of its
     /// own view type.
     /// </remarks>
-    public abstract class Adapter<T> : ISizeProvider
+    public abstract class CollectionViewAdapter<T> : ISizeProvider
     {
         public abstract int Count { get; }
 
@@ -73,7 +73,7 @@ namespace Headwind.VirtualCollectionView
     /// <summary>
     /// Convenience base for the common single-view-type case: the holder type is the pool key.
     /// </summary>
-    public abstract class Adapter<TVH, T> : Adapter<T> where TVH : CollectionItemViewHolder<T>
+    public abstract class CollectionViewAdapter<TVH, T> : CollectionViewAdapter<T> where TVH : CollectionItemViewHolder<T>
     {
         public sealed override Type GetViewType(int index) => typeof(TVH);
 
